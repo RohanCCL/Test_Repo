@@ -85,7 +85,7 @@ namespace Notification_App
 
                     if (P1[0].CCL <= 0 && P1[0].CCD <= 0 && P1[0].CCK <= 0 && P1[0].CCR <= 0 && P1[0].CCW <= 0 && P1[0].IF <= 0)
                     {
-                        int AA = 4;
+                        
                         panel1.Visible = false;
 
                     }
@@ -296,7 +296,7 @@ namespace Notification_App
             List<int> selectedPlantIds = GetSelectedPlantIds();
 
             
-            SendSelectedPlantIdsToDatabase(selectedPlantIds, labAutoID.Text);
+            var A=SendSelectedPlantIdsToDatabase(selectedPlantIds, labAutoID.Text);
             
 
             UpdateXml();
@@ -395,7 +395,15 @@ namespace Notification_App
         {
 
             string joinedPlantIds = string.Join(",", plantIds);
-            string apiUrl = "https://cclwebadmin-001-site7.atempurl.com/insertPlantAccess";
+
+            CCL = plantIds.Count > 0 ? plantIds[0] : 0;
+            CCW = plantIds.Count > 1 ? plantIds[1] : 0;
+            CCR = plantIds.Count > 2 ? plantIds[2] : 0;
+            CCD = plantIds.Count > 3 ? plantIds[3] : 0;
+            CCK = plantIds.Count > 4 ? plantIds[4] : 0;
+            IF = plantIds.Count > 5 ? plantIds[5] : 0;
+
+            string apiUrl = "http://cclwebadmin-001-site7.atempurl.com/insertPlantAccess";
             var apiData = new { appId, plantIds = joinedPlantIds };
 
             using (var client = new HttpClient())

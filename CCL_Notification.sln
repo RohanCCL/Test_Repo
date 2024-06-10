@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCL_Notification", "Notification_App\CCL_Notification.csproj", "{2AE5ABB9-EAC5-4F6F-A16D-94B3F3AF1439}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NotificationBot", "NotificationBot\NotificationBot.vdproj", "{AD976401-7DB4-4A27-9566-39B8D535CF43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AE5ABB9-EAC5-4F6F-A16D-94B3F3AF1439}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE5ABB9-EAC5-4F6F-A16D-94B3F3AF1439}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE5ABB9-EAC5-4F6F-A16D-94B3F3AF1439}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE5ABB9-EAC5-4F6F-A16D-94B3F3AF1439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD976401-7DB4-4A27-9566-39B8D535CF43}.Debug|Any CPU.ActiveCfg = Debug
+		{AD976401-7DB4-4A27-9566-39B8D535CF43}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1399D8D-0CCE-408D-B396-7673AE7267CB}
+	EndGlobalSection
+EndGlobal

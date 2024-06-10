@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ArrayOfConfigModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ConfigModel>
+    <ID>1010</ID>
+    <UserName>Rohan</UserName>
+  </ConfigModel>
+</ArrayOfConfigModel>

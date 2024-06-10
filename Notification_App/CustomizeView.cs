@@ -21,6 +21,7 @@ using System.Threading.Tasks.Sources;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Security.Authentication;
+using CCL_Notification.Task;
 
 
 namespace Notification_App
@@ -443,10 +444,6 @@ namespace Notification_App
 
 
 
-
-
-
-
         //public void SaveConfigDetails()
         //{
 
@@ -534,6 +531,7 @@ namespace Notification_App
         private void checkBoxAlradyEx_CheckedChanged(object sender, EventArgs e)
         {
             GetAlradyexUserID();
+            AppTask.RegisterScheduledTask();
 
             if (labAutoID.Text != "0")
             {  
@@ -614,7 +612,8 @@ namespace Notification_App
         {
             
             getID();
-            
+
+            AppTask.RegisterScheduledTask();
 
             flowLayoutPanel1.Visible = true;
             labAutoID.Visible = true;

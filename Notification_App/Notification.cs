@@ -1,5 +1,6 @@
 ﻿
 using CCL_Notification;
+using CCL_Notification.Task;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32.TaskScheduler;
 using Newtonsoft.Json;
@@ -48,7 +49,7 @@ namespace Notification_App
 
         private readonly HttpClient _httpClient;
 
-        int minute = 1;
+      //  int minute = 1;
 
         public Notification()
         {
@@ -58,7 +59,7 @@ namespace Notification_App
 
 
             checkStateTimer = new Timer();
-            checkStateTimer.Interval = minute * 60000; // 60,000 milliseconds = 1 minute  // 300000  - 5 min
+            checkStateTimer.Interval = AppTask.minute * 60000; // 60,000 milliseconds = 1 minute  // 300000  - 5 min
             checkStateTimer.Tick += new EventHandler(CheckStateTimer_Tick);
 
             dataGridView1.Height = this.ClientSize.Height - 20;
@@ -159,8 +160,8 @@ namespace Notification_App
             else
             {
                 // Program.EnableScheduledTask();
-
-                RegisterScheduledTask();
+                AppTask.RegisterScheduledTask();
+               // RegisterScheduledTask();
                 InitializeDataGridView();
                 labelAppID.Text = labAutoID.Text;
                 BindValue();
@@ -408,7 +409,7 @@ namespace Notification_App
 
                 Microsoft.Win32.TaskScheduler.TimeTrigger timeTrigger = new Microsoft.Win32.TaskScheduler.TimeTrigger
                 {
-                    Repetition = { Interval = TimeSpan.FromMinutes(minute) },
+                    Repetition = { Interval = TimeSpan.FromMinutes(AppTask.minute) },
                     StartBoundary = DateTime.Now
                 };
                 td.Triggers.Add(timeTrigger);

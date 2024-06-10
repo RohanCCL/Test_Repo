@@ -403,20 +403,16 @@ namespace Notification_App
                 try
                 {
                     var jsonData = JsonConvert.SerializeObject(apiData);
-                    Console.WriteLine($"Request Data: {jsonData}");
-
+             
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                    // Log the content object
                     string contentString = await content.ReadAsStringAsync();
-                    Console.WriteLine($"StringContent: {contentString}");
-
+                
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage response = await client.PostAsync(apiUrl, content);
 
                     string responseContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Response Content: {responseContent}");
-
+              
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("Data sent successfully.");

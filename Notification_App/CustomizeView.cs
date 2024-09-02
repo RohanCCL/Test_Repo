@@ -22,13 +22,21 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Security.Authentication;
 using CCL_Notification.Task;
+using System.Diagnostics.Eventing.Reader;
+using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Diagnostics;
 
 
 namespace Notification_App
 {
+
+   
     public partial class CustomizeView : Form
     {
         static SqlConnection conn;
+
+        int NetworkAvilable = 0;
 
         int CCL = 0;
         int CCW = 0;
@@ -37,21 +45,39 @@ namespace Notification_App
         int CCK = 0;
         int IF = 0;
 
-        // string installFolder = AppDomain.CurrentDomain.BaseDirectory;
-        // string filePath = Path.Combine(installFolder, "NotificationBotConfig.xml");
+        private System.Windows.Forms.ComboBox comboBox;
+        private DataSet ds;
+        private SqlDataAdapter adapter;
+		// string installFolder = AppDomain.CurrentDomain.BaseDirectory;
+		// string filePath = Path.Combine(installFolder, "NotificationBotConfig.xml");
 
-        public static string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        public static string filePath = Path.Combine(desktopFolder, "NotificationBotConfig.xml");
+		public static string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+		public static string filePath = Path.Combine(documentsFolder, "NotificationBotConfig.xml");
 
-        public CustomizeView()
+		// public static string desktopFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+		// public static string filePath = Path.Combine(desktopFolder, "NotificationBotConfig.xml");
+
+		public CustomizeView()
         {
             InitializeComponent();
+
+
+            BindComboBox();
+
+            btnApply.Enabled= false;
+            // Add ComboBox to the form
+            Controls.Add(comboBox);
         }
+
+       
 
         private void CustomizeView_Load(object sender, EventArgs e)
         {
             bindPlant();
 
+			BindComboBox();
+
+			btnApply.Enabled=false;
             checkUseNewID.Checked = true;
 
             Random rand1 = new Random();
@@ -65,7 +91,7 @@ namespace Notification_App
 
 
             /////////   BACKGROUND COLOR  CHANGE
-            this.BackColor = Color.FromArgb(17, 17, 19);
+            this.BackColor = Color.FromArgb(56, 59, 57);
             //this.BackColor = Color.DarkSlateGray;
             this.TransparencyKey = Color.Teal;
             this.Opacity = 0.80;
@@ -79,9 +105,13 @@ namespace Notification_App
 
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
+                    ///////////////////////   GET XML FILE DATA ////////////////////////////////////////
+
                     P1 = xmlSerialize.Deserialize(fs) as List<ConfigModel>;
                     labAutoID.Text = Convert.ToString(P1[0].ID);
                     labUname.Text = Convert.ToString(P1[0].UserName);
+
+                     /////////////////////////// CHECK XML FILE ASSING PLANT AVILABILITY //////////////////////////////
 
                     if (P1[0].CCL <= 0 && P1[0].CCD <= 0 && P1[0].CCK <= 0 && P1[0].CCR <= 0 && P1[0].CCW <= 0 && P1[0].IF <= 0)
                     {
@@ -91,14 +121,17 @@ namespace Notification_App
                     }
                     else
                     {
-                        this.Hide();
+
+           
+
+                            this.Hide();
+
+						    AppTask.RegisterScheduledTask();  ////////////////////// SHEDULE TASK  /////////////////////////////
+						    Notification destinationFormObj = new Notification();
+                            destinationFormObj.ShowDialog();
 
 
-                        Notification destinationFormObj = new Notification();
-                        destinationFormObj.ShowDialog();
-
-
-                        this.Close();
+                            this.Close();
 
                     }
 
@@ -115,16 +148,146 @@ namespace Notification_App
 
 
                 flowLayoutPanel1.Visible=false;
+                labelGroup.Visible=false;
+                cmGroup.Visible=false;
                 labAutoID.Visible = false;
                 label3.Visible = false;
                 btnApply.Visible= false;
+
+                labelExcicution.Visible = false;
+                textExcicution.Visible = false;
 
                 panel1.Visible=true;
 
             }
         }
 
-        private async void bindPlant()
+
+		private async void BindComboBox()
+		{
+			try
+			{
+				using (HttpClient client = new HttpClient())
+				{
+					client.BaseAddress = new Uri("http://cclwebadmin-001-site7.atempurl.com/");
+					client.DefaultRequestHeaders.Accept.Clear();
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+					// Create an empty POST request body
+					var postData = new { Key = "GetAll@1API" };
+					string json = JsonConvert.SerializeObject(postData);
+					var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+					HttpResponseMessage response = await client.PostAsync("getAllGroups", content);
+
+					if (response.IsSuccessStatusCode)
+					{
+						string jsonData = await response.Content.ReadAsStringAsync();
+
+
+						var groups = JsonConvert.DeserializeObject<List<PlantAccess>>(jsonData);
+
+
+						DataTable dataTable = new DataTable();
+						dataTable.Columns.Add("GroupID", typeof(int));
+						dataTable.Columns.Add("group", typeof(string));
+
+						foreach (var group in groups)
+						{
+							var row = dataTable.NewRow();
+							row["GroupID"] = group.GroupID;
+							row["group"] = group.group;
+							dataTable.Rows.Add(row);
+						}
+
+						//DataRow pleaseSelectRow = dataTable.NewRow();
+						//pleaseSelectRow["GroupID"] = 0;
+						//pleaseSelectRow["group"] = "Please Select";
+						//dataTable.Rows.InsertAt(pleaseSelectRow, 0);
+
+						cmGroup.DataSource = dataTable;
+						cmGroup.DisplayMember = "group";
+						cmGroup.ValueMember = "GroupID";
+					}
+					else
+					{
+						string errorContent = await response.Content.ReadAsStringAsync();
+						
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+                BindComboBoxLoacl();
+			}
+		}
+
+
+
+		/// <summary>
+		/// ////////////////////// LOCAL SERVER API CHECK ///////////////////////////
+		/// </summary>
+		/// <returns></returns>
+		private async void BindComboBoxLoacl()
+		{
+			try
+			{
+				using (HttpClient client = new HttpClient())
+				{
+					client.BaseAddress = new Uri("http://10.40.47.30:99/");
+					client.DefaultRequestHeaders.Accept.Clear();
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+					// Create an empty POST request body
+					var postData = new { Key = "GetAll@1API" };
+					string json = JsonConvert.SerializeObject(postData);
+					var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+					HttpResponseMessage response = await client.PostAsync("getAllGroups", content);
+
+					if (response.IsSuccessStatusCode)
+					{
+						string jsonData = await response.Content.ReadAsStringAsync();
+
+
+						var groups = JsonConvert.DeserializeObject<List<PlantAccess>>(jsonData);
+
+
+						DataTable dataTable = new DataTable();
+						dataTable.Columns.Add("GroupID", typeof(int));
+						dataTable.Columns.Add("group", typeof(string));
+
+						foreach (var group in groups)
+						{
+							var row = dataTable.NewRow();
+							row["GroupID"] = group.GroupID;
+							row["group"] = group.group;
+							dataTable.Rows.Add(row);
+						}
+
+			
+						cmGroup.DataSource = dataTable;
+						cmGroup.DisplayMember = "group";
+						cmGroup.ValueMember = "GroupID";
+					}
+					else
+					{
+						string errorContent = await response.Content.ReadAsStringAsync();
+
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+
+			}
+		}
+
+
+
+
+
+		private async void bindPlant()
         {
             var plants = await DatabaseHelper.GetPlantsFromDatabase();
 
@@ -201,68 +364,31 @@ namespace Notification_App
 
 
        
-        //public void getID()
-        //{
-        //    SqlConnection conn = new SqlConnection(SQLTask.GetConnection());
-
-        //    try
-        //    {
-        //        if (conn.State == System.Data.ConnectionState.Closed)
-        //        {
-        //            conn.Open();
-        //        }
-
-        //        using (SqlCommand cmd = new SqlCommand("InsertAppID_NotificationBot", conn))
-        //        {
-        //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-        //            cmd.Parameters.Add(new SqlParameter("@UserName", labUname.Text.ToString()));
-        //            SqlParameter outputIdParam = new SqlParameter("@ID", SqlDbType.Int)
-        //            {
-        //                Direction = ParameterDirection.Output
-        //            };
-        //            cmd.Parameters.Add(outputIdParam);
-
-
-        //            cmd.ExecuteNonQuery();
-        //            int newId = (int)cmd.Parameters["@ID"].Value;
-        //            labAutoID.Text = Convert.ToString(newId);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Failed to insert data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //    finally
-        //    {
-        //        if (conn.State == System.Data.ConnectionState.Open)
-        //        {
-        //            conn.Close();
-        //        }
-        //    }
-        //}
-
-
-
         public async Task getID()
         {
-            string apiUrl = "http://cclwebadmin-001-site7.atempurl.com/getAppId/"+ labUname.Text.ToString() + "";
+            string apiUrl = "http://cclwebadmin-001-site7.atempurl.com/getAppId";
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
                     var request = new
                     {
-                        UserName = labUname.Text.ToString()
+                        UserName = labUname.Text.ToString(),
+                        key = "GetAll@1API"
                     };
 
-                    HttpResponseMessage response = await client.GetAsync(apiUrl);
+                    string json = JsonConvert.SerializeObject(request);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync(apiUrl, content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         var responseContent = await response.Content.ReadAsStringAsync();
                         JObject jsonResponse = JObject.Parse(responseContent);
                         int appId = (int)jsonResponse["appId"];
+                        decimal exe = (decimal)jsonResponse["executionTime"];
+                        textExcicution.Text =exe.ToString();
                         labAutoID.Text = appId.ToString();
 
                         string userName = Environment.UserName;
@@ -273,46 +399,137 @@ namespace Notification_App
                         using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                         {
                             xmlSerializer.Serialize(fs, configModels);
-
                         }
-                    }
+                        NetworkAvilable = 1;
+
+					
+						AppTask.RegisterScheduledTask();
+
+                      
+						flowLayoutPanel1.Visible = true;
+						labelGroup.Visible = true;
+						cmGroup.Visible = true;
+						labAutoID.Visible = true;
+						label3.Visible = true;
+						btnApply.Visible = true;
+						panel1.Visible = false;
+
+						labelExcicution.Visible = true;
+						textExcicution.Visible = true;
+						
+					}
                     else
                     {
-
-                        MessageBox.Show("Failed to insert data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // MessageBox.Show("APPID Generate Failed....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to insert data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+				NetworkAvilable = 0;
+                getIDLocal();
+			}
         }
 
-        private void btnApply_Click(object sender, EventArgs e)
+
+		/// <summary>
+		/// ////////////////////// LOCAL SERVER API CHECK ///////////////////////////
+		/// </summary>
+		/// <returns></returns>
+        /// 
+
+
+		public async Task getIDLocal()
+		{
+			string apiUrl = "http://10.40.47.30:99/getAppId";
+			try
+			{
+				using (HttpClient client = new HttpClient())
+				{
+					var request = new
+					{
+						UserName = labUname.Text.ToString(),
+						key = "GetAll@1API"
+					};
+
+					string json = JsonConvert.SerializeObject(request);
+					var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+					HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+
+					if (response.IsSuccessStatusCode)
+					{
+						var responseContent = await response.Content.ReadAsStringAsync();
+						JObject jsonResponse = JObject.Parse(responseContent);
+						int appId = (int)jsonResponse["appId"];
+						decimal exe = (decimal)jsonResponse["executionTime"];
+						textExcicution.Text = exe.ToString();
+						labAutoID.Text = appId.ToString();
+
+						string userName = Environment.UserName;
+
+						List<ConfigModel> configModels = new List<ConfigModel>();
+						XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<ConfigModel>));
+						configModels.Add(new ConfigModel() { ID = Convert.ToInt32(labAutoID.Text), UserName = userName });
+						using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+						{
+							xmlSerializer.Serialize(fs, configModels);
+						}
+						NetworkAvilable = 1;
+
+
+						AppTask.RegisterScheduledTask();
+
+
+						flowLayoutPanel1.Visible = true;
+						labelGroup.Visible = true;
+						cmGroup.Visible = true;
+						labAutoID.Visible = true;
+						label3.Visible = true;
+						btnApply.Visible = true;
+						panel1.Visible = false;
+
+						labelExcicution.Visible = true;
+						textExcicution.Visible = true;
+
+					}
+					else
+					{
+						// MessageBox.Show("APPID Generate Failed....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				NetworkAvilable = 0;
+				MessageBox.Show("Network Not Avilable....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+			}
+		}
+
+		private void btnApply_Click(object sender, EventArgs e)
         {
-            // SaveConfigDetails();
-
-            List<int> selectedPlantIds = GetSelectedPlantIds();
-
             
-            var A=SendSelectedPlantIdsToDatabase(selectedPlantIds, labAutoID.Text);
+                List<int> selectedPlantIds = GetSelectedPlantIds();
+
+
+                var A = SendSelectedPlantIdsToDatabase(selectedPlantIds, labAutoID.Text, cmGroup.SelectedValue.ToString(),Convert.ToDecimal(textExcicution.Text));
+
+
+                UpdateXml();
+
+                this.Hide();
+                Notification destinationformobj = new Notification();
+                destinationformobj.ShowDialog();
+
+                this.Close();
             
-
-            UpdateXml();
-
-            this.Hide();
-            Notification destinationformobj = new Notification();
-            destinationformobj.ShowDialog();
-
-            this.Close();
-
         }
 
 
         public void UpdateXml()
         {
-
+            /////////////////  COMPUTER USERNAME  //////////////////
+            
             string userName = Environment.UserName;
 
 
@@ -330,7 +547,7 @@ namespace Notification_App
             ConfigModel existingConfig = configModels.FirstOrDefault(c => c.ID == Convert.ToInt32(labAutoID.Text));
             if (existingConfig != null)
             {
-                // Update existing config
+                // Update existing xml   As sample data update xml file, To identify plant access added or not
                 existingConfig.UserName = userName;
                 existingConfig.CCL = CCL;
                 existingConfig.CCW = CCW;
@@ -365,34 +582,10 @@ namespace Notification_App
             }
 
 
-        //public void SendSelectedPlantIdsToDatabase(List<int> plantIds, string AppID)
-        //{
-        //    CCL = plantIds.Count > 0 ? plantIds[0] : 0;
-        //    CCW = plantIds.Count > 1 ? plantIds[1] : 0;
-        //    CCR = plantIds.Count > 2 ? plantIds[2] : 0;
-        //    CCD = plantIds.Count > 3 ? plantIds[3] : 0;
-        //    CCK = plantIds.Count > 4 ? plantIds[4] : 0;
-        //    IF = plantIds.Count > 5 ? plantIds[5] : 0;
-
-        //    string plantIdsCsv = string.Join(",", plantIds);
-
-        //    using (SqlConnection connection = new SqlConnection(SQLTask.GetConnection()))
-        //    {
-        //        connection.Open();
-
-        //        using (SqlCommand command = new SqlCommand("NotificationBot_InsertPlantAccess", connection))
-        //        {
-        //            command.CommandType = CommandType.StoredProcedure;
-        //            command.Parameters.AddWithValue("@AppID", AppID);
-        //            command.Parameters.AddWithValue("@PlantIDs", plantIdsCsv);
-        //            command.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-
-
-        public async Task SendSelectedPlantIdsToDatabase(List<int> plantIds, string appId)
+        public async Task SendSelectedPlantIdsToDatabase(List<int> plantIds, string appId, string GroupIDs,decimal Excicution)
         {
+
+            int groupID = Convert.ToInt32(GroupIDs);
 
             string joinedPlantIds = string.Join(",", plantIds);
 
@@ -404,25 +597,26 @@ namespace Notification_App
             IF = plantIds.Count > 5 ? plantIds[5] : 0;
 
             string apiUrl = "http://cclwebadmin-001-site7.atempurl.com/insertPlantAccess";
-            var apiData = new { appId, plantIds = joinedPlantIds };
+            var apiData = new { appId, plantIds = joinedPlantIds, groupID, Key = "GetAll@1API" };
 
             using (var client = new HttpClient())
             {
                 try
                 {
                     var jsonData = JsonConvert.SerializeObject(apiData);
-             
+
                     var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
                     string contentString = await content.ReadAsStringAsync();
-                
+
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     HttpResponseMessage response = await client.PostAsync(apiUrl, content);
 
                     string responseContent = await response.Content.ReadAsStringAsync();
-              
+
                     if (response.IsSuccessStatusCode)
                     {
+                        bool exchange = await changeExecutionTime(appId, Excicution);
                         Console.WriteLine("Data sent successfully.");
                     }
                     else
@@ -438,63 +632,174 @@ namespace Notification_App
                     {
                         Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                     }
+					var A = SendSelectedPlantIdsToDatabaselOCAL(plantIds, labAutoID.Text, cmGroup.SelectedValue.ToString(), Convert.ToDecimal(textExcicution.Text));
+				}
+                catch (Exception ex)
+                {
+					var A = SendSelectedPlantIdsToDatabaselOCAL(plantIds, labAutoID.Text, cmGroup.SelectedValue.ToString(), Convert.ToDecimal(textExcicution.Text));
+				}
+            }
+        }
+
+
+		/// <summary>
+		/// ////////////////////// LOCAL SERVER API CHECK ///////////////////////////
+		/// </summary>
+		/// <returns></returns>
+		public async Task SendSelectedPlantIdsToDatabaselOCAL(List<int> plantIds, string appId, string GroupIDs, decimal Execution)
+		{
+			int groupID = Convert.ToInt32(GroupIDs);
+
+			string joinedPlantIds = string.Join(",", plantIds);
+
+			CCL = plantIds.Count > 0 ? plantIds[0] : 0;
+			CCW = plantIds.Count > 1 ? plantIds[1] : 0;
+			CCR = plantIds.Count > 2 ? plantIds[2] : 0;
+			CCD = plantIds.Count > 3 ? plantIds[3] : 0;
+			CCK = plantIds.Count > 4 ? plantIds[4] : 0;
+			IF = plantIds.Count > 5 ? plantIds[5] : 0;
+
+			string apiUrl = "http://10.40.47.30:99/insertPlantAccess";
+			var apiData = new { appId, plantIds = joinedPlantIds, groupID, Key = "GetAll@1API" };
+
+			using (var client = new HttpClient())
+			{
+				try
+				{
+					var jsonData = JsonConvert.SerializeObject(apiData);
+
+					var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+					string contentString = await content.ReadAsStringAsync();
+
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+					HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+
+					string responseContent = await response.Content.ReadAsStringAsync();
+
+					if (response.IsSuccessStatusCode)
+					{
+						bool exchange = await changeExecutionTimelOCAL(appId, Execution);
+						Console.WriteLine("Data sent successfully.");
+					}
+					else
+					{
+						Console.WriteLine($"Error: {response.StatusCode}");
+						Console.WriteLine($"Response: {responseContent}");
+					}
+				}
+				catch (HttpRequestException ex)
+				{
+					Console.WriteLine($"HttpRequestException: {ex.Message}");
+					if (ex.InnerException != null)
+					{
+						Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+					}
+					
+				}
+				catch (Exception ex)
+				{
+					
+				}
+			}
+
+		}
+
+
+
+
+		private async Task<bool> changeExecutionTime(string appId, decimal executionTime)
+        {
+            string apiUrl = "http://cclwebadmin-001-site7.atempurl.com/changeExecutionTime";
+            var apiData = new { appId, ExecutionTime = executionTime, Key = "GetAll@1API" };
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var jsonData = JsonConvert.SerializeObject(apiData);
+                    var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                       
+                        return true;
+                    }
+                    else
+                    {
+                     
+                        return false;
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    
+					bool exchange = await changeExecutionTimelOCAL(appId, executionTime);
+					return false;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Exception: {ex.Message}");
+					bool exchange = await changeExecutionTimelOCAL(appId, executionTime);
+					return false;
                 }
             }
         }
 
 
+		/// <summary>
+		/// ////////////////////// LOCAL SERVER API CHECK ///////////////////////////
+		/// </summary>
+		/// <returns></returns>
+        /// 
+		private async Task<bool> changeExecutionTimelOCAL(string appId, decimal executionTime)
+		{
+			string apiUrl = "http://10.40.47.30:99/changeExecutionTime";
+			var apiData = new { appId, ExecutionTime = executionTime, Key = "GetAll@1API" };
 
-        //public void SaveConfigDetails()
-        //{
+			using (var client = new HttpClient())
+			{
+				try
+				{
+					var jsonData = JsonConvert.SerializeObject(apiData);
+					var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+					client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+					HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+					string responseContent = await response.Content.ReadAsStringAsync();
+
+					if (response.IsSuccessStatusCode)
+					{
+
+						return true;
+					}
+					else
+					{
+
+						return false;
+					}
+				}
+				catch (HttpRequestException ex)
+				{
+					
+					return false;
+				}
+				catch (Exception ex)
+				{
+					
+					return false;
+				}
+			}
+		}
 
 
-        //    SqlConnection conn = new SqlConnection(SQLTask.GetConnection());
-
-        //    try
-        //    {
-
-        //        if (conn.State == System.Data.ConnectionState.Closed)
-        //        {
-        //            conn.Open();
-        //        }
 
 
 
-        //        // Create a SqlCommand to call the stored procedure
-        //        using (SqlCommand cmd = new SqlCommand("UpdatePlantAccessDetails", conn))
-        //        {
-        //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //            cmd.Parameters.Add(new SqlParameter("@UserName", labUname.Text.ToString()));
-        //            cmd.Parameters.Add(new SqlParameter("@ID", Convert.ToInt32(labAutoID.Text)));
-        //            cmd.Parameters.Add(new SqlParameter("@CCL", Convert.ToInt32(CCL)));
-        //            cmd.Parameters.Add(new SqlParameter("@CCW", Convert.ToInt32(CCW)));
-        //            cmd.Parameters.Add(new SqlParameter("@CCR", Convert.ToInt32(CCR)));
-        //            cmd.Parameters.Add(new SqlParameter("@CCD", Convert.ToInt32(CCD)));
-        //            cmd.Parameters.Add(new SqlParameter("@CCK", Convert.ToInt32(CCK)));
-        //            cmd.Parameters.Add(new SqlParameter("@IF", Convert.ToInt32(IF)));
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Failed to insert data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //    finally
-        //    {
-
-        //        if (conn.State == System.Data.ConnectionState.Open)
-        //        {
-        //            conn.Close();
-        //        }
-        //    }
-        //}
-
-
-        private void label2_Click(object sender, EventArgs e)
+		private void label2_Click(object sender, EventArgs e)
         {
 
         }
@@ -534,96 +839,302 @@ namespace Notification_App
 
         private void checkBoxAlradyEx_CheckedChanged(object sender, EventArgs e)
         {
-            GetAlradyexUserID();
+            panel1.Visible=false;
+            panel2.Visible= true;
+         
+        }
+
+
+        private async Task<string> GetAlradyexUserID(string APPID)
+        {
+            string apiUrl = "http://cclwebadmin-001-site7.atempurl.com/getActiveStatus";
+            string AppId = "0";
+            if (string.IsNullOrEmpty(APPID))
+            {
+                APPID = "0";
+            }
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var parameters = new
+                    {
+                        appId = APPID,
+                        userName = labUname.Text,
+                        key = "GetAll@1API"
+                    };
+
+                    HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, parameters);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseContent = await response.Content.ReadAsStringAsync();
+                        JArray jsonArray = JArray.Parse(responseContent);
+                        bool appIdFound = false;
+
+                        foreach (JObject obj in jsonArray.Children<JObject>())
+                        {
+                            foreach (JProperty property in obj.Properties())
+                            {
+                                if (property.Name == "appId")
+                                {
+                                    int appActive = (int)property.Value;
+                                    AppId = appActive.ToString();
+
+                                    // Example assignments, adjust as needed
+                                    CCL = 1;
+                                    CCD = 3;
+                                    CCW = 5;
+
+                                    labAutoID.Text = Convert.ToString(appActive);
+                                    appIdFound = true;
+                                    NetworkAvilable = 1;
+                                    break; // Exit inner foreach loop once appID is found
+                                }
+                            }
+
+                            if (appIdFound)
+                            {
+                                break; // Exit outer foreach loop once appID is found
+                            }
+                        }
+
+                        if (!appIdFound)
+                        {
+                            panel2.Visible = true;
+                            NetworkAvilable = 1;
+						    AppId = "0";
+
+							MessageBox.Show("AppID not Available....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+							return AppId;
+						}
+                    }
+                    else
+                    {
+                        AppId = "0";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                NetworkAvilable = 0;
+				AppId = "0";
+
+                GetAlradyexUserIDlOACAL(APPID);
+
+			}
+
+            return AppId;
+        }
+
+
+
+		private async Task<string> GetAlradyexUserIDlOACAL(string APPID)
+		{
+			string apiUrl = "http://10.40.47.30:99/getActiveStatus";
+			string AppId = "0";
+			if (string.IsNullOrEmpty(APPID))
+			{
+				APPID = "0";
+			}
+			try
+			{
+				using (HttpClient client = new HttpClient())
+				{
+					var parameters = new
+					{
+						appId = APPID,
+						userName = labUname.Text,
+						key = "GetAll@1API"
+					};
+
+					HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, parameters);
+
+					if (response.IsSuccessStatusCode)
+					{
+						string responseContent = await response.Content.ReadAsStringAsync();
+						JArray jsonArray = JArray.Parse(responseContent);
+						bool appIdFound = false;
+
+						foreach (JObject obj in jsonArray.Children<JObject>())
+						{
+							foreach (JProperty property in obj.Properties())
+							{
+								if (property.Name == "appId")
+								{
+									int appActive = (int)property.Value;
+									AppId = appActive.ToString();
+
+									// Example assignments, adjust as needed
+									CCL = 1;
+									CCD = 3;
+									CCW = 5;
+
+									labAutoID.Text = Convert.ToString(appActive);
+									appIdFound = true;
+									NetworkAvilable = 1;
+									break; // Exit inner foreach loop once appID is found
+								}
+							}
+
+							if (appIdFound)
+							{
+								break; // Exit outer foreach loop once appID is found
+							}
+						}
+
+						if (!appIdFound)
+						{
+							panel2.Visible = true;
+							NetworkAvilable = 1;
+							AppId = "0";
+
+							MessageBox.Show("AppID not Available....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+
+                            return AppId;
+						}
+					}
+					else
+					{
+						AppId = "0";
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				NetworkAvilable = 0;
+				AppId = "0";
+			}
+
+			return AppId;
+		}
+
+
+
+
+
+
+
+		private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            getID();
+
+            //if (NetworkAvilable == )
+            //{
+            //    MessageBox.Show("Network Not Avilable....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            //}
+
+
+        }
+
+        private async Task<string> GetAppID()
+        {
+            string AppID = "0";
+
+            if (!string.IsNullOrEmpty(textAppID.Text))
+            {
+                AppID = await GetAlradyexUserID(textAppID.Text);
+            }
+            else
+            {
+                AppID = await GetAlradyexUserID("");
+            }
+
+            if(NetworkAvilable == 0)
+            {
+				panel2.Visible=true;
+				MessageBox.Show("Network Not Avilable....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+			}
+
+            return AppID;
+        }
+
+        private async void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            panel2.Visible = false;
+
+            string AppID = await GetAppID();
+
+            //////// SHEDULE TASK ///////////////////
             AppTask.RegisterScheduledTask();
 
             if (labAutoID.Text != "0")
-            {  
-
+            {
                 List<ConfigModel> configModels = new List<ConfigModel>();
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<ConfigModel>));
                 configModels.Add(new ConfigModel() { ID = Convert.ToInt32(labAutoID.Text), UserName = labUname.Text });
+
                 using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {
                     xmlSerializer.Serialize(fs, configModels);
-
                 }
 
                 UpdateXml();
 
                 flowLayoutPanel1.Visible = true;
+                labelGroup.Visible = true;
+                cmGroup.Visible = true;
                 labAutoID.Visible = true;
                 label3.Visible = true;
                 btnApply.Visible = true;
-                panel1.Visible= false;
+                panel1.Visible = false;
+
+                labelExcicution.Visible = true;
+                textExcicution.Visible = true;
 
                 this.Hide();
                 Notification destinationformobj = new Notification();
                 destinationformobj.ShowDialog();
-
                 this.Close();
             }
         }
 
-        public string GetAlradyexUserID()
+
+        private void linkBack_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            try
+            panel2.Visible = false;
+            flowLayoutPanel1.Visible = false;
+            labelGroup.Visible = false;
+            cmGroup.Visible = false;
+            panel1.Visible = true;
+            checkBoxAlradyEx.Checked = false;
+
+            labelExcicution.Visible = false;
+            textExcicution.Visible = false;
+        }
+
+        private void cmGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmGroup.SelectedValue is DataRowView rowView)
             {
+                // Extract the GroupID from the DataRowView
+                var groupID = rowView["GroupID"];
 
-                conn = new SqlConnection(SQLTask.GetConnection());
-                SqlCommand command = new SqlCommand("EXEC [GetAppID_NotificationBot] '" + labUname.Text + "'", conn);
-
-                if (conn.State.ToString() == "Closed") { conn.Open(); }
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
+                // Check if the extracted value is not 0
+                if (groupID != null && groupID.ToString() != "0")
                 {
-                    while (reader.Read())
-                    {
-                        int ID = (int)reader["AppID"];
-                         CCL =1;
-                         CCD =3;
-                         CCW =5;
-           
-                        labAutoID.Text =Convert.ToString(ID);
-                       
-                    }
+                    btnApply.Enabled = true;
                 }
                 else
                 {
-                    MessageBox.Show($"Application ID not Found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                   
+                    btnApply.Enabled = false;
                 }
-
-               
             }
-            catch (Exception ex)
+            else if (cmGroup.SelectedValue != null && cmGroup.SelectedValue.ToString() != "0")
             {
-                MessageBox.Show($"Failed to insert data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnApply.Enabled = true;
             }
-            finally
+            else
             {
-
-                if (conn.State == System.Data.ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-
+                btnApply.Enabled = false;
             }
-            return "0";
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void cmGroup_SelectedValueChanged(object sender, EventArgs e)
         {
-            
-            getID();
-
-            AppTask.RegisterScheduledTask();
-
-            flowLayoutPanel1.Visible = true;
-            labAutoID.Visible = true;
-            label3.Visible = true;
-            btnApply.Visible = true;
-            panel1.Visible = false;
+          
         }
     }
 }

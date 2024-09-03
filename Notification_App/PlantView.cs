@@ -170,14 +170,16 @@ namespace CCL_Notification
             DataGridViewColumn column2 = dataGridView1.Columns[1];
             DataGridViewColumn column3 = dataGridView1.Columns[2];
             DataGridViewColumn column7 = dataGridView1.Columns[3];
+			//DataGridViewColumn column8 = dataGridView1.Columns[4];
 
-            column1.Width = 80;
-            column2.Width = 80;
-            column3.Width = 110;
-            column7.Width = 100;
+			column1.Width = 70;
+            column2.Width = 110;
+            column3.Width = 80;
+            column7.Width = 70;
+			//column8.Width = 90;
 
 
-            DataGridViewColumn column4 = dataGridView2.Columns[0];
+			DataGridViewColumn column4 = dataGridView2.Columns[0];
             DataGridViewColumn column5 = dataGridView2.Columns[1];
             DataGridViewColumn column6 = dataGridView2.Columns[2];
             // DataGridViewColumn column4 = dataGridView1.Columns[3];
@@ -284,26 +286,26 @@ namespace CCL_Notification
                         string responseData = await response.Content.ReadAsStringAsync();
                         List<PlantAccess> plantAccessList = JsonConvert.DeserializeObject<List<PlantAccess>>(responseData);
 
-                        DataTable dataTable = new DataTable();
-                        dataTable.Columns.Add("tagoutHrs", typeof(string));
-                        dataTable.Columns.Add("fgHrs", typeof(string));
-                        dataTable.Columns.Add("factoryPlan", typeof(string));
-                        dataTable.Columns.Add("efficiency", typeof(string));
+						DataTable dataTable = new DataTable();
+						dataTable.Columns.Add("frPlan", typeof(string));
+						dataTable.Columns.Add("utnfrHrs", typeof(string));
+						dataTable.Columns.Add("teamOutHrs", typeof(string));
+						dataTable.Columns.Add("fgHrs", typeof(string));
+						//dataTable.Columns.Add("TeamOutEfficiency", typeof(string));
 
-                        foreach (var item in plantAccessList)
-                        {
-                            dataTable.Rows.Add(item.tagoutHrs, item.fgHrs, item.factoryPlan, item.efficiency);
+						foreach (var item in plantAccessList)
+						{
+							dataTable.Rows.Add(item.frPlan, item.utnfrHrs, item.TeamOutHrs, item.fgHrs);  // , item.TeamOutEfficiency
 
 							labNetworkWaiting.Visible = false;
 
 						}
-
-                        dataGridView1.DataSource = dataTable;
-
-                        BindValueMonth();
+						dataGridView1.DataSource = dataTable;
+						BindValueMonth();
                     }
                     else
                     {
+						BindValueLocal();
 						labNetworkWaiting.Visible = true;
                        
 					}
@@ -347,14 +349,15 @@ namespace CCL_Notification
 						List<PlantAccess> plantAccessList = JsonConvert.DeserializeObject<List<PlantAccess>>(responseData);
 
 						DataTable dataTable = new DataTable();
-						dataTable.Columns.Add("tagoutHrs", typeof(string));
+						dataTable.Columns.Add("frPlan", typeof(string));
+						dataTable.Columns.Add("utnfrHrs", typeof(string));
+						dataTable.Columns.Add("teamOutHrs", typeof(string));
 						dataTable.Columns.Add("fgHrs", typeof(string));
-						dataTable.Columns.Add("factoryPlan", typeof(string));
-						dataTable.Columns.Add("efficiency", typeof(string));
+						//dataTable.Columns.Add("TeamOutEfficiency", typeof(string));
 
 						foreach (var item in plantAccessList)
 						{
-							dataTable.Rows.Add(item.tagoutHrs, item.fgHrs, item.factoryPlan, item.efficiency);
+							dataTable.Rows.Add(item.frPlan, item.utnfrHrs,item.TeamOutHrs ,item.fgHrs);   // , item.TeamOutEfficiency
 
 							labNetworkWaiting.Visible = false;
 
@@ -405,14 +408,14 @@ namespace CCL_Notification
                         List<PlantAccess> plantAccessList = JsonConvert.DeserializeObject<List<PlantAccess>>(responseData);
 
                         DataTable dataTable = new DataTable();
-                        dataTable.Columns.Add("tagOutHrsMonth", typeof(string));
+                        dataTable.Columns.Add("TargetHrsMonth", typeof(string));
                         dataTable.Columns.Add("frHrsMontH", typeof(string));
                         dataTable.Columns.Add("fgHrsMonth", typeof(string));
 
 
                         foreach (var item in plantAccessList)
                         {
-                            dataTable.Rows.Add(item.tagOutHrsMonth, item.frHrsMontH, item.fgHrsMonth);
+                            dataTable.Rows.Add(item.TargetHrsMonth, item.frHrsMontH, item.fgHrsMonth);
                         }
 
                         dataGridView2.DataSource = dataTable;
@@ -421,8 +424,8 @@ namespace CCL_Notification
                     }
                     else
                     {
-                       
-                    }
+						BindValueMonthLocal();
+					}
                 }
             }
             catch (Exception ex)
@@ -463,14 +466,14 @@ namespace CCL_Notification
 						List<PlantAccess> plantAccessList = JsonConvert.DeserializeObject<List<PlantAccess>>(responseData);
 
 						DataTable dataTable = new DataTable();
-						dataTable.Columns.Add("tagOutHrsMonth", typeof(string));
+						dataTable.Columns.Add("TargetHrsMonth", typeof(string));
 						dataTable.Columns.Add("frHrsMontH", typeof(string));
 						dataTable.Columns.Add("fgHrsMonth", typeof(string));
 
 
 						foreach (var item in plantAccessList)
 						{
-							dataTable.Rows.Add(item.tagOutHrsMonth, item.frHrsMontH, item.fgHrsMonth);
+							dataTable.Rows.Add(item.TargetHrsMonth, item.frHrsMontH, item.fgHrsMonth);
 						}
 
 						dataGridView2.DataSource = dataTable;
@@ -505,10 +508,10 @@ namespace CCL_Notification
                 {
 
                   
-                    if (row.Cells[3].Value != null && double.TryParse(row.Cells[3].Value.ToString(), out double amount))
-                    {
-                        row.Cells[3].Value = $"{amount}%";
-                    }
+                    //if (row.Cells[4].Value != null && double.TryParse(row.Cells[4].Value.ToString(), out double amount))
+                    //{
+                    //    row.Cells[4].Value = $"{amount}%";
+                    //}
                     
                 }
 

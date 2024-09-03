@@ -584,9 +584,9 @@ namespace Notification_App
                         dataTable.Columns.Add("plantName", typeof(string));
                         dataTable.Columns.Add("frPlan", typeof(string));
                         dataTable.Columns.Add("utnfrHrs", typeof(string));
-                        dataTable.Columns.Add("TagOutHrs", typeof(string));
+                        dataTable.Columns.Add("TeamOutHrs", typeof(string));  
                         dataTable.Columns.Add("plantID", typeof(string));
-                        dataTable.Columns.Add("efficiency", typeof(string));
+                        dataTable.Columns.Add("TeamOutEfficiency", typeof(decimal));
 
                         foreach (var item in plantAccessList)
                         {
@@ -595,7 +595,7 @@ namespace Notification_App
                             //MessageNotification plantView = new MessageNotification();
                             //plantView.ShowDialog();
 
-                            dataTable.Rows.Add(item.plantName, item.frPlan, item.utnfrHrs, item.tagoutHrs, item.plantID, item.efficiency);
+                            dataTable.Rows.Add(item.plantName, item.frPlan, item.utnfrHrs, item.TeamOutHrs, item.plantID, item.TeamOutEfficiency);
 
 							labNetworkWaiting.Visible = false;
 
@@ -621,8 +621,9 @@ namespace Notification_App
                     }
                     else
                     {
-                        // MessageBox.Show("Failed to retrieve data from API");
-                    }
+						BindValueLocal();
+						// MessageBox.Show("Failed to retrieve data from API");
+					}
                 }
             }
             catch (Exception ex)
@@ -670,9 +671,10 @@ namespace Notification_App
 						dataTable.Columns.Add("plantName", typeof(string));
 						dataTable.Columns.Add("frPlan", typeof(string));
 						dataTable.Columns.Add("utnfrHrs", typeof(string));
-						dataTable.Columns.Add("TagOutHrs", typeof(string));
+						dataTable.Columns.Add("TeamOutHrs", typeof(string));
 						dataTable.Columns.Add("plantID", typeof(string));
-						dataTable.Columns.Add("efficiency", typeof(string));
+						dataTable.Columns.Add("TeamOutEfficiency", typeof(decimal));
+
 
 						foreach (var item in plantAccessList)
 						{
@@ -681,7 +683,7 @@ namespace Notification_App
 							//MessageNotification plantView = new MessageNotification();
 							//plantView.ShowDialog();
 
-							dataTable.Rows.Add(item.plantName, item.frPlan, item.utnfrHrs, item.tagoutHrs, item.plantID, item.efficiency);
+							dataTable.Rows.Add(item.plantName, item.frPlan, item.utnfrHrs, item.TeamOutHrs, item.plantID, item.TeamOutEfficiency);
 
 							labNetworkWaiting.Visible = false;
 
@@ -1107,22 +1109,22 @@ namespace Notification_App
 
 					row.Cells[1].Style.ForeColor = Color.White;
 
-					if (row.Cells[5].Value != null && double.TryParse(row.Cells[5].Value.ToString(), out double percentage))
+					if (row.Cells[5].Value != null && decimal.TryParse(row.Cells[5].Value.ToString(), out decimal percentage))
                     {
-                        row.Cells[5].Value = $"{percentage}%";
+                        row.Cells[5].Value =percentage;
 
                         row.Cells[5].Style.ForeColor = Color.FromArgb(255, 3, 62);
 
 
-						if (double.TryParse(row.Cells[2].Value.ToString(), out double firstValue) &&
-							 double.TryParse(row.Cells[3].Value.ToString(), out double secondValue))
+						if (decimal.TryParse(row.Cells[2].Value.ToString(), out decimal firstValue) &&
+							 decimal.TryParse(row.Cells[3].Value.ToString(), out decimal secondValue))
 						{
 							
 							//double A = firstValue - secondValue;
-							double B = (secondValue / firstValue);
-							double C = B * 100;
+							decimal B = (secondValue / firstValue);
+							decimal C = B * 100;
 
-							double percentage1 = C;
+							decimal percentage1 = C;
 
 							if (percentage1 >= 100)                            /////////////////  Green Color
 							{

@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notification));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label4 = new System.Windows.Forms.Label();
 			this.panelContainer = new System.Windows.Forms.Panel();
@@ -46,12 +46,6 @@
 			this.labelAppID = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
-			this.Plant = new System.Windows.Forms.DataGridViewLinkColumn();
-			this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.palnthours = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Actualhours = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.plantID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.efficiency = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.labUname = new System.Windows.Forms.Label();
 			this.labAutoID = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
@@ -60,6 +54,12 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.Plant = new System.Windows.Forms.DataGridViewLinkColumn();
+			this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.palnthours = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Actualhours = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.plantID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.efficiency = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -194,14 +194,14 @@
 			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-			dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.ColumnHeadersVisible = false;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -211,14 +211,14 @@
             this.Actualhours,
             this.plantID,
             this.efficiency});
-			dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle28.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle28.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Desktop;
-			dataGridViewCellStyle28.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle28;
+			dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Desktop;
+			dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle14;
 			this.dataGridView1.EnableHeadersVisualStyles = false;
 			this.dataGridView1.Location = new System.Drawing.Point(3, 46);
 			this.dataGridView1.Name = "dataGridView1";
@@ -236,90 +236,6 @@
 			this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
 			this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
 			this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseMove);
-			// 
-			// Plant
-			// 
-			this.Plant.ActiveLinkColor = System.Drawing.Color.White;
-			this.Plant.DataPropertyName = "plantName";
-			dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI Variable Display", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle23.ForeColor = System.Drawing.Color.White;
-			dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle23.SelectionForeColor = System.Drawing.Color.Black;
-			this.Plant.DefaultCellStyle = dataGridViewCellStyle23;
-			this.Plant.FillWeight = 50F;
-			this.Plant.HeaderText = "Plant";
-			this.Plant.LinkColor = System.Drawing.Color.White;
-			this.Plant.MinimumWidth = 8;
-			this.Plant.Name = "Plant";
-			this.Plant.ReadOnly = true;
-			this.Plant.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.Plant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Plant.VisitedLinkColor = System.Drawing.Color.White;
-			this.Plant.Width = 52;
-			// 
-			// status
-			// 
-			this.status.DataPropertyName = "frPlan";
-			dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle24.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle24.ForeColor = System.Drawing.Color.DeepPink;
-			dataGridViewCellStyle24.SelectionBackColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle24.SelectionForeColor = System.Drawing.Color.White;
-			this.status.DefaultCellStyle = dataGridViewCellStyle24;
-			this.status.FillWeight = 50F;
-			this.status.HeaderText = "frPlan";
-			this.status.MinimumWidth = 50;
-			this.status.Name = "status";
-			this.status.ReadOnly = true;
-			this.status.Width = 75;
-			// 
-			// palnthours
-			// 
-			this.palnthours.DataPropertyName = "utnfrHrs";
-			dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle25.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle25.ForeColor = System.Drawing.Color.White;
-			dataGridViewCellStyle25.SelectionBackColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle25.SelectionForeColor = System.Drawing.Color.White;
-			this.palnthours.DefaultCellStyle = dataGridViewCellStyle25;
-			this.palnthours.HeaderText = "utnfrHrs";
-			this.palnthours.Name = "palnthours";
-			this.palnthours.ReadOnly = true;
-			this.palnthours.Width = 150;
-			// 
-			// Actualhours
-			// 
-			this.Actualhours.DataPropertyName = "tagoutHrs";
-			dataGridViewCellStyle26.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle26.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle26.ForeColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle26.SelectionBackColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle26.SelectionForeColor = System.Drawing.Color.Transparent;
-			this.Actualhours.DefaultCellStyle = dataGridViewCellStyle26;
-			this.Actualhours.HeaderText = "tagoutHrs";
-			this.Actualhours.Name = "Actualhours";
-			this.Actualhours.ReadOnly = true;
-			// 
-			// plantID
-			// 
-			this.plantID.DataPropertyName = "plantID";
-			this.plantID.HeaderText = "plantID";
-			this.plantID.Name = "plantID";
-			this.plantID.ReadOnly = true;
-			this.plantID.Visible = false;
-			// 
-			// efficiency
-			// 
-			this.efficiency.DataPropertyName = "efficiency";
-			dataGridViewCellStyle27.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle27.ForeColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle27.SelectionBackColor = System.Drawing.Color.Transparent;
-			dataGridViewCellStyle27.SelectionForeColor = System.Drawing.Color.Transparent;
-			this.efficiency.DefaultCellStyle = dataGridViewCellStyle27;
-			this.efficiency.HeaderText = "efficiency";
-			this.efficiency.Name = "efficiency";
-			this.efficiency.ReadOnly = true;
 			// 
 			// labUname
 			// 
@@ -407,6 +323,90 @@
 			this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseMove);
 			this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseUp);
 			// 
+			// Plant
+			// 
+			this.Plant.ActiveLinkColor = System.Drawing.Color.White;
+			this.Plant.DataPropertyName = "plantName";
+			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI Variable Display", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle9.ForeColor = System.Drawing.Color.White;
+			dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.Black;
+			this.Plant.DefaultCellStyle = dataGridViewCellStyle9;
+			this.Plant.FillWeight = 50F;
+			this.Plant.HeaderText = "Plant";
+			this.Plant.LinkColor = System.Drawing.Color.White;
+			this.Plant.MinimumWidth = 8;
+			this.Plant.Name = "Plant";
+			this.Plant.ReadOnly = true;
+			this.Plant.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Plant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Plant.VisitedLinkColor = System.Drawing.Color.White;
+			this.Plant.Width = 52;
+			// 
+			// status
+			// 
+			this.status.DataPropertyName = "frPlan";
+			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle10.ForeColor = System.Drawing.Color.DeepPink;
+			dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
+			this.status.DefaultCellStyle = dataGridViewCellStyle10;
+			this.status.FillWeight = 50F;
+			this.status.HeaderText = "frPlan";
+			this.status.MinimumWidth = 50;
+			this.status.Name = "status";
+			this.status.ReadOnly = true;
+			this.status.Width = 75;
+			// 
+			// palnthours
+			// 
+			this.palnthours.DataPropertyName = "utnfrHrs";
+			dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle11.ForeColor = System.Drawing.Color.White;
+			dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.White;
+			this.palnthours.DefaultCellStyle = dataGridViewCellStyle11;
+			this.palnthours.HeaderText = "utnfrHrs";
+			this.palnthours.Name = "palnthours";
+			this.palnthours.ReadOnly = true;
+			this.palnthours.Width = 150;
+			// 
+			// Actualhours
+			// 
+			this.Actualhours.DataPropertyName = "TeamOutHrs";
+			dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle12.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle12.ForeColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle12.SelectionForeColor = System.Drawing.Color.Transparent;
+			this.Actualhours.DefaultCellStyle = dataGridViewCellStyle12;
+			this.Actualhours.HeaderText = "TeamOutHrs";
+			this.Actualhours.Name = "Actualhours";
+			this.Actualhours.ReadOnly = true;
+			// 
+			// plantID
+			// 
+			this.plantID.DataPropertyName = "plantID";
+			this.plantID.HeaderText = "plantID";
+			this.plantID.Name = "plantID";
+			this.plantID.ReadOnly = true;
+			this.plantID.Visible = false;
+			// 
+			// efficiency
+			// 
+			this.efficiency.DataPropertyName = "TeamOutEfficiency";
+			dataGridViewCellStyle13.Font = new System.Drawing.Font("Segoe UI Variable Display", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle13.ForeColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle13.SelectionBackColor = System.Drawing.Color.Transparent;
+			dataGridViewCellStyle13.SelectionForeColor = System.Drawing.Color.Transparent;
+			this.efficiency.DefaultCellStyle = dataGridViewCellStyle13;
+			this.efficiency.HeaderText = "TeamOutEfficiency";
+			this.efficiency.Name = "efficiency";
+			this.efficiency.ReadOnly = true;
+			// 
 			// Notification
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -450,13 +450,13 @@
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Panel panelContainer;
+		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.DataGridViewLinkColumn Plant;
 		private System.Windows.Forms.DataGridViewTextBoxColumn status;
 		private System.Windows.Forms.DataGridViewTextBoxColumn palnthours;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Actualhours;
 		private System.Windows.Forms.DataGridViewTextBoxColumn plantID;
 		private System.Windows.Forms.DataGridViewTextBoxColumn efficiency;
-		private System.Windows.Forms.Label label4;
 	}
 }
 

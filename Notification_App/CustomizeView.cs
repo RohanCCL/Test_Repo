@@ -211,8 +211,10 @@ namespace Notification_App
 					}
 					else
 					{
+						BindComboBoxLoacl();
 						string errorContent = await response.Content.ReadAsStringAsync();
 						
+
 					}
 				}
 			}
@@ -420,8 +422,9 @@ namespace Notification_App
 					}
                     else
                     {
-                        // MessageBox.Show("APPID Generate Failed....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+						getIDLocal();
+						// MessageBox.Show("APPID Generate Failed....", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
                 }
             }
             catch (Exception ex)
@@ -912,7 +915,9 @@ namespace Notification_App
                     }
                     else
                     {
-                        AppId = "0";
+						GetAlradyexUserIDlOACAL(APPID);
+						AppId = "0";
+
                     }
                 }
             }
@@ -929,7 +934,11 @@ namespace Notification_App
         }
 
 
-
+        /// <summary>
+        /// /////////////////  LOCAL 
+        /// </summary>
+        /// <param name="APPID"></param>
+        /// <returns></returns>
 		private async Task<string> GetAlradyexUserIDlOACAL(string APPID)
 		{
 			string apiUrl = "http://10.40.47.30:99/getActiveStatus";

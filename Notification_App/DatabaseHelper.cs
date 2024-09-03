@@ -33,8 +33,7 @@ namespace CCL_Notification
                 }
                 else
                 {
-                    // Handle non-success status codes here if needed
-                    Console.WriteLine("Error: Unable to retrieve plants. Status Code: " + response.StatusCode);
+					GetPlantsFromDatabaseLocal();
                 }
             }
             catch (HttpRequestException ex)

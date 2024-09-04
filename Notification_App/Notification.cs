@@ -174,13 +174,14 @@ namespace Notification_App
 			//button1.Click += TogglePanel_Click;
 
 
-			// Replace panel2 with TransparentPanel ///////////////////////////////////////////
-			TransparentPanel transparentPanel = new TransparentPanel();
-			transparentPanel.Location = panel3.Location;
-			transparentPanel.Size = panel3.Size;
+			///////// Replace panel2 with TransparentPanel ///////////////////////////////////////////
 
-			this.Controls.Add(transparentPanel);	
-			this.Controls.Remove(panel3);
+			//TransparentPanel transparentPanel = new TransparentPanel();
+			//transparentPanel.Location = panel3.Location;
+			//transparentPanel.Size = panel3.Size;
+
+			//this.Controls.Add(transparentPanel);
+			//this.Controls.Remove(panel3);
 
 			//////////////////////////////////////////////////////////
 
@@ -602,7 +603,7 @@ namespace Notification_App
 							dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
 							dataGridView1.GridColor = Color.WhiteSmoke;  // You can set any color you like
 
-
+							
 							//dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
 							//dataGridView1.GridColor = Color.WhiteSmoke;
 
@@ -1028,7 +1029,7 @@ namespace Notification_App
 				
 				
 
-				panelContainer.Visible = true;
+				//panelContainer.Visible = true;
 				string plant = dataGridView1.Rows[e.RowIndex].Cells["plantID"].Value.ToString();
 				string plantName = dataGridView1.Rows[e.RowIndex].Cells["Plant"].Value.ToString();
 
@@ -1115,13 +1116,28 @@ namespace Notification_App
 
                         row.Cells[5].Style.ForeColor = Color.FromArgb(255, 3, 62);
 
+						decimal B;
 
 						if (decimal.TryParse(row.Cells[2].Value.ToString(), out decimal firstValue) &&
 							 decimal.TryParse(row.Cells[3].Value.ToString(), out decimal secondValue))
 						{
-							
+							if(secondValue == 0 && firstValue == 0)
+							{
+								B = 0;
+							}
+							else
+							{
+
+								if (firstValue == 0)
+								{
+									firstValue = 1;
+								}
+
+								B = (secondValue / firstValue);
+							}
 							//double A = firstValue - secondValue;
-							decimal B = (secondValue / firstValue);
+						   
+
 							decimal C = B * 100;
 
 							decimal percentage1 = C;
@@ -1276,6 +1292,7 @@ namespace Notification_App
 				// Set the form's location to the new position, keeping the X coordinate the same
 				this.Location = new Point(this.Location.X, newY);
 			}
+			dataGridView1.ClearSelection();
 		}
 
 		private void panelContainer_Paint(object sender, PaintEventArgs e)

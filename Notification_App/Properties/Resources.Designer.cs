@@ -143,6 +143,16 @@ namespace CCL_Notification.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _369__1__removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("369__1_-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _60689 {
             get {
                 object obj = ResourceManager.GetObject("60689", resourceCulture);
@@ -166,6 +176,16 @@ namespace CCL_Notification.Properties {
         internal static System.Drawing.Bitmap _6068921 {
             get {
                 object obj = ResourceManager.GetObject("6068921", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _96782409_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("96782409-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -356,6 +376,26 @@ namespace CCL_Notification.Properties {
         internal static System.Drawing.Bitmap iDash {
             get {
                 object obj = ResourceManager.GetObject("iDash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iDash_OutSidePanel {
+            get {
+                object obj = ResourceManager.GetObject("iDash_OutSidePanel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iDash_OutSidePanel1 {
+            get {
+                object obj = ResourceManager.GetObject("iDash_OutSidePanel1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

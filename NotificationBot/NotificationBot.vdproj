@@ -1984,15 +1984,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NotificationBot"
-        "ProductCode" = "8:{B117F51C-D426-47CD-A9B3-D10578A799A8}"
-        "PackageCode" = "8:{F38EC12B-BA2F-411B-A761-3CD32762EAC7}"
+        "ProductCode" = "8:{92EC4169-7384-4207-AB84-5CD54ECEE1AA}"
+        "PackageCode" = "8:{95EDF5EF-593E-4801-9C79-ECE728E884E8}"
         "UpgradeCode" = "8:{CB5E546C-DEFB-41BF-8CB3-89BA9C893FDF}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:Courtaulds"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -2520,7 +2520,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_00A51D2B36F44A86A702B7ABF8740504"
             {
-            "SourcePath" = "8:..\\Notification_App\\obj\\Release\\CCL_Notification.exe"
+            "SourcePath" = "8:..\\Notification_App\\obj\\Debug\\CCL_Notification.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9E77835DEE284D2D926D4A3AB9388ED0"
@@ -2548,7 +2548,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7338EE56A9124C2F98ADF9BE617529CE"
             {
-            "SourcePath" = "8:..\\Notification_App\\obj\\Release\\CCL_Notification.exe"
+            "SourcePath" = "8:..\\Notification_App\\obj\\Debug\\CCL_Notification.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9E77835DEE284D2D926D4A3AB9388ED0"

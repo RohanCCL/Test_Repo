@@ -166,15 +166,19 @@ namespace CCL_Notification
 
         private void PlantView_Load(object sender, EventArgs e)
         {
-            DataGridViewColumn column1 = dataGridView1.Columns[0];
+
+			pictureBack.SizeMode = PictureBoxSizeMode.Zoom;
+			this.Size = pictureBack.Size;
+
+			DataGridViewColumn column1 = dataGridView1.Columns[0];
             DataGridViewColumn column2 = dataGridView1.Columns[1];
             DataGridViewColumn column3 = dataGridView1.Columns[2];
             DataGridViewColumn column7 = dataGridView1.Columns[3];
 			//DataGridViewColumn column8 = dataGridView1.Columns[4];
 
 			column1.Width = 70;
-            column2.Width = 110;
-            column3.Width = 80;
+            column2.Width = 120;
+            column3.Width = 60;
             column7.Width = 70;
 			//column8.Width = 90;
 
@@ -301,6 +305,7 @@ namespace CCL_Notification
 
 						}
 						dataGridView1.DataSource = dataTable;
+						dataGridView1.ClearSelection();
 						BindValueMonth();
                     }
                     else
@@ -364,8 +369,8 @@ namespace CCL_Notification
 						}
 
 						dataGridView1.DataSource = dataTable;
-
-                        BindValueMonthLocal();
+						dataGridView1.ClearSelection();
+						BindValueMonthLocal();
 					}
 					else
 					{
@@ -420,8 +425,8 @@ namespace CCL_Notification
 
                         dataGridView2.DataSource = dataTable;
 
-                        
-                    }
+						dataGridView2.ClearSelection();
+					}
                     else
                     {
 						BindValueMonthLocal();
@@ -478,7 +483,7 @@ namespace CCL_Notification
 
 						dataGridView2.DataSource = dataTable;
 
-
+						dataGridView2.ClearSelection();
 					}
 					else
 					{
@@ -559,6 +564,11 @@ namespace CCL_Notification
 
 			// Optionally hide this form if needed
 			this.Hide();
+		}
+
+		private void pictureBack_MouseEnter(object sender, EventArgs e)
+		{
+			
 		}
 	}
 }

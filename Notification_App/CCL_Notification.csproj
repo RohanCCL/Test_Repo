@@ -212,6 +212,8 @@
     <None Include="Resources\60689.png" />
     <None Include="Resources\606892.png" />
     <None Include="Resources\6068921.png" />
+    <None Include="Resources\96782409-removebg-preview.png" />
+    <None Include="Resources\369__1_-removebg-preview.png" />
     <Content Include="Resources\Back1.jpg" />
     <None Include="Resources\Live.png" />
     <None Include="Resources\idash1.png" />
@@ -220,6 +222,8 @@
     <None Include="Resources\home-and-app-icon-2h48krt-removebg-preview-removebg-preview.png" />
     <None Include="Resources\iDash.jpg" />
     <None Include="Resources\iDash1.jpg" />
+    <None Include="Resources\iDash_OutSidePanel.png" />
+    <None Include="Resources\iDash_OutSidePanel1.png" />
     <Content Include="Resources\Livegreen21.png" />
     <Content Include="Warning.ico" />
   </ItemGroup>

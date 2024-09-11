@@ -383,6 +383,16 @@ namespace CCL_Notification.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap iDash_ClickPan {
+            get {
+                object obj = ResourceManager.GetObject("iDash_ClickPan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iDash_OutSidePanel {
             get {
                 object obj = ResourceManager.GetObject("iDash_OutSidePanel", resourceCulture);

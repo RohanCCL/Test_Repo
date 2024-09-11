@@ -379,12 +379,13 @@ namespace Notification_App
                     this.Close();
                 }
 
-                if (this.WindowState == FormWindowState.Minimized)
-                {
-                    this.WindowState = FormWindowState.Normal;
-                }
-                 
-        }
+			   BindValue();
+			//if (this.WindowState == FormWindowState.Minimized)
+			//{
+			//    this.WindowState = FormWindowState.Normal;
+			//}
+
+		}
         private void RestoreTimer_Tick(object sender, EventArgs e)
         {
 			BindValue();
@@ -398,11 +399,13 @@ namespace Notification_App
 			
 			if (!IsSensitiveAppInFocus())
 			{
-				MinimizeForm();
+				//MinimizeForm();
 				ShowWindow(this.Handle, SW_SHOWNOACTIVATE);
 				targetWidth = PanelExpandedWidth;
 				resizeTimer.Start();
 				isExpanded = true;
+
+				dataGridView1.ClearSelection();
 			}
 		}
 

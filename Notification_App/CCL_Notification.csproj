@@ -224,6 +224,7 @@
     <None Include="Resources\iDash1.jpg" />
     <None Include="Resources\iDash_OutSidePanel.png" />
     <None Include="Resources\iDash_OutSidePanel1.png" />
+    <None Include="Resources\iDash_ClickPan.png" />
     <Content Include="Resources\Livegreen21.png" />
     <Content Include="Warning.ico" />
   </ItemGroup>

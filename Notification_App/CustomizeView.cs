@@ -120,9 +120,7 @@ namespace Notification_App
 
                     }
                     else
-                    {
-
-           
+                    { 
 
                             this.Hide();
 

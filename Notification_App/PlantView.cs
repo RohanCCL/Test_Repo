@@ -178,7 +178,7 @@ namespace CCL_Notification
 
 			column1.Width = 70;
             column2.Width = 120;
-            column3.Width = 60;
+            column3.Width = 65;
             column7.Width = 70;
 			//column8.Width = 90;
 
@@ -186,11 +186,13 @@ namespace CCL_Notification
 			DataGridViewColumn column4 = dataGridView2.Columns[0];
             DataGridViewColumn column5 = dataGridView2.Columns[1];
             DataGridViewColumn column6 = dataGridView2.Columns[2];
+            DataGridViewColumn column8 = dataGridView2.Columns[2];
             // DataGridViewColumn column4 = dataGridView1.Columns[3];
 
-            column4.Width = 80;
-            column5.Width = 115;
-            column6.Width = 110;
+            column4.Width = 70;
+            column5.Width = 110;
+            column6.Width = 50;
+            column8.Width = 50;
             // column4.Width = 110;
 
             string pcName = System.Environment.MachineName;
@@ -413,14 +415,19 @@ namespace CCL_Notification
                         List<PlantAccess> plantAccessList = JsonConvert.DeserializeObject<List<PlantAccess>>(responseData);
 
                         DataTable dataTable = new DataTable();
-                        dataTable.Columns.Add("TargetHrsMonth", typeof(string));
+                       // dataTable.Columns.Add("TargetHrsMonth", typeof(string));
+                        //dataTable.Columns.Add("frHrsMontH", typeof(string));
+                        //dataTable.Columns.Add("fgHrsMonth", typeof(string));
+
+                        dataTable.Columns.Add("freezeFRPlanHrs", typeof(string));
                         dataTable.Columns.Add("frHrsMontH", typeof(string));
-                        dataTable.Columns.Add("fgHrsMonth", typeof(string));
+                        dataTable.Columns.Add("teamOutHrsMonth", typeof(string));                    
+                        dataTable.Columns.Add("teamScanHrsMonth", typeof(string));
 
 
                         foreach (var item in plantAccessList)
                         {
-                            dataTable.Rows.Add(item.TargetHrsMonth, item.frHrsMontH, item.fgHrsMonth);
+                            dataTable.Rows.Add(item.freezeFRPlanHrs, item.frHrsMontH,item.teamOutHrsMonth, item.teamScanHrsMonth);
                         }
 
                         dataGridView2.DataSource = dataTable;
@@ -471,17 +478,18 @@ namespace CCL_Notification
 						List<PlantAccess> plantAccessList = JsonConvert.DeserializeObject<List<PlantAccess>>(responseData);
 
 						DataTable dataTable = new DataTable();
-						dataTable.Columns.Add("TargetHrsMonth", typeof(string));
-						dataTable.Columns.Add("frHrsMontH", typeof(string));
-						dataTable.Columns.Add("fgHrsMonth", typeof(string));
+                        dataTable.Columns.Add("freezeFRPlanHrs", typeof(string));
+                        dataTable.Columns.Add("frHrsMontH", typeof(string));
+                        dataTable.Columns.Add("teamOutHrsMonth", typeof(string));
+                        dataTable.Columns.Add("teamScanHrsMonth", typeof(string));
 
 
-						foreach (var item in plantAccessList)
-						{
-							dataTable.Rows.Add(item.TargetHrsMonth, item.frHrsMontH, item.fgHrsMonth);
-						}
+                        foreach (var item in plantAccessList)
+                        {
+                            dataTable.Rows.Add(item.freezeFRPlanHrs, item.frHrsMontH, item.teamOutHrsMonth, item.teamScanHrsMonth);
+                        }
 
-						dataGridView2.DataSource = dataTable;
+                        dataGridView2.DataSource = dataTable;
 
 						dataGridView2.ClearSelection();
 					}

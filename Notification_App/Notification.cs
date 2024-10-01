@@ -379,11 +379,9 @@ namespace Notification_App
                     this.Close();
                 }
 
-			   BindValue();
-			//if (this.WindowState == FormWindowState.Minimized)
-			//{
-			//    this.WindowState = FormWindowState.Normal;
-			//}
+		
+			BindValue();
+			
 
 		}
         private void RestoreTimer_Tick(object sender, EventArgs e)
@@ -1159,24 +1157,27 @@ namespace Notification_App
 									row.Cells[5].Style.ForeColor = Color.FromArgb(65, 252, 3);
 								}
 							}
-							else if (percentage1 >= 50 && percentage1 <= 74)    /////////////////////// Ember Color
-							{
-								row.Cells[3].Style.ForeColor = Color.FromArgb(249, 168, 81);								
-							    row.Cells[5].Style.ForeColor = Color.FromArgb(249, 168, 81);
+							//else if (percentage1 >= 50 && percentage1 <= 74)    /////////////////////// Ember Color
+							//{
+							//	row.Cells[3].Style.ForeColor = Color.FromArgb(249, 168, 81);								
+							//    row.Cells[5].Style.ForeColor = Color.FromArgb(249, 168, 81);
 							
 
-							}
+							//}
 							else if (percentage1 >= 75 && percentage1 <= 99)    /////////////////  Orange Color
 							{
 								// If firstValue has reached between 30% and 49% of secondValue
-								row.Cells[3].Style.ForeColor = Color.FromArgb(254, 254, 3);
-								row.Cells[5].Style.ForeColor = Color.FromArgb(254, 254, 3);
+								//row.Cells[3].Style.ForeColor = Color.FromArgb(254, 254, 3);     /////////////////  Orange Color
+								//row.Cells[5].Style.ForeColor = Color.FromArgb(254, 254, 3);
+
+								row.Cells[3].Style.ForeColor = Color.FromArgb(249, 168, 81); /////////////////////// Ember Color
+								row.Cells[5].Style.ForeColor = Color.FromArgb(249, 168, 81);
 							}
 							else
 							{
 
 								// row.Cells[3].Style.ForeColor = Color.FromArgb(254, 254, 3);
-								row.Cells[3].Style.ForeColor = Color.FromArgb(254, 0, 0);
+								row.Cells[3].Style.ForeColor = Color.FromArgb(254, 0, 0);    
 								row.Cells[5].Style.ForeColor = Color.FromArgb(254, 0, 0);
 
 							}

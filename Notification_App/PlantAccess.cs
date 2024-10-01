@@ -19,7 +19,11 @@ namespace CCL_Notification
             public string utnfrHrs { get; set; }
             public string tagOutHrsMonth { get; set; }
 
-		    public string TargetHrsMonth { get; set; }
+            public string freezeFRPlanHrs { get; set; }
+            
+            public string teamOutHrsMonth { get; set; }
+            public string  teamScanHrsMonth { get; set; }
+            public string TargetHrsMonth { get; set; }
 		    public string frHrsMontH { get; set; }
             public string fgHrsMonth { get; set; }
             
